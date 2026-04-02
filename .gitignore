@@ -9,8 +9,7 @@ __pycache__/
 # PyCharm配置
 .idea/
 
-# 数据集（大文件不上传）
-01_Data_Prepare/
+
 
 # 虚拟环境
 venv/
