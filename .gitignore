@@ -1,0 +1,20 @@
+# 可视化结果
+vis_results/
+kaist_full_label_visual_check/
+
+# Python缓存
+__pycache__/
+*.pyc
+
+# PyCharm配置
+.idea/
+
+# 数据集（大文件不上传）
+01_Data_Prepare/
+
+# 虚拟环境
+venv/
+env/
+
+# 日志
+*.log
