@@ -1,0 +1,17 @@
+# 数据集根目录，无需修改
+path: E:\KAIST_Dataset\kaist_yolo
+
+# 训练集/验证集图片相对路径
+train: images/lwir/train
+val: images/lwir/val
+test: images/lwir/val     # 测试集和验证集复用，符合KAIST领域通用规范
+
+# 类别定义
+names:
+  0: person  # 仅保留person类别，过滤了其他无关类别，和你的数据处理逻辑一致
+
+# 数据集筛选规则（严格对齐论文reasonable子集规范）
+# 仅训练/验证：无/部分遮挡、行人高度>55像素的有效样本
+filter_annotations:
+  min_height: 55  # 论文规定的reasonable子集最小行人高度
+  max_occlusion: 0.5  # 允许部分遮挡，过滤重度遮挡样本
