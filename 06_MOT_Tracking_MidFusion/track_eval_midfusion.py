@@ -5,9 +5,7 @@ from typing import Dict, List, Tuple
 import motmetrics as mm
 import numpy as np
 
-DEFAULT_GT_FILE = r"E:\kaist_yolo\04_MOT_Tracking\gt.txt"
-DEFAULT_TRACKER_FILE = r"E:\kaist_yolo\04_MOT_Tracking\tracker.txt"
-DEFAULT_IOU_THRESH = 0.5
+from config_midfusion import IOU_THRESH_EVAL, OUT_GT_FILE, OUT_TRACKER_FILE
 
 
 def _xywh_to_xyxy(box: Tuple[float, float, float, float]) -> Tuple[float, float, float, float]:
@@ -65,15 +63,13 @@ def parse_mot_file(file_path: str) -> Dict[int, Dict[int, Tuple[float, float, fl
     return data
 
 
-def _build_accumulator(
-    gt_data: Dict[int, Dict[int, Tuple[float, float, float, float]]],
-    tracker_data: Dict[int, Dict[int, Tuple[float, float, float, float]]],
-    iou_threshold: float,
-    only_gt_frames: bool,
-) -> mm.MOTAccumulator:
+def evaluate_mot(gt_file: str, tracker_file: str, iou_threshold: float, only_gt_frames: bool = True):
+    gt_data = parse_mot_file(gt_file)
+    tracker_data = parse_mot_file(tracker_file)
+
     acc = mm.MOTAccumulator(auto_id=False)
-    all_frames = sorted(gt_data.keys()) if only_gt_frames else sorted(set(gt_data.keys()) | set(tracker_data.keys()))
-    for frame in all_frames:
+    frames = sorted(gt_data.keys()) if only_gt_frames else sorted(set(gt_data.keys()) | set(tracker_data.keys()))
+    for frame in frames:
         gt_ids = list(gt_data.get(frame, {}).keys())
         trk_ids = list(tracker_data.get(frame, {}).keys())
         gt_boxes = list(gt_data.get(frame, {}).values())
@@ -83,42 +79,34 @@ def _build_accumulator(
         else:
             dist_matrix = _iou_distance_matrix(gt_boxes, trk_boxes, iou_threshold)
         acc.update(gt_ids, trk_ids, dist_matrix, frameid=frame)
-    return acc
 
-
-def evaluate_mot(
-    gt_file: str,
-    tracker_file: str,
-    iou_threshold: float = DEFAULT_IOU_THRESH,
-    only_gt_frames: bool = True,
-) -> Dict[str, float]:
-    gt_data = parse_mot_file(gt_file)
-    tracker_data = parse_mot_file(tracker_file)
-    acc = _build_accumulator(gt_data, tracker_data, iou_threshold, only_gt_frames)
     mh = mm.metrics.create()
     metrics = [
         "num_frames", "num_objects", "num_predictions", "recall", "precision",
         "mota", "motp", "idf1", "idp", "idr", "num_switches", "num_false_positives",
         "num_misses", "mostly_tracked", "partially_tracked", "mostly_lost", "num_fragmentations",
     ]
-    summary = mh.compute(acc, metrics=metrics, name="tracker")
-    row = summary.loc["tracker"]
+    row = mh.compute(acc, metrics=metrics, name="tracker").loc["tracker"]
 
+    results = {}
     percent_keys = {"recall", "precision", "mota", "idf1", "idp", "idr"}
-    results: Dict[str, float] = {}
-    for key in metrics:
-        value = float(row[key]) if np.isfinite(row[key]) else 0.0
-        if key in percent_keys:
-            value *= 100.0
-        if key == "motp":
-            value = (1.0 - value) * 100.0
-        results[key] = value
-    return results
+    for k in metrics:
+        v = float(row[k]) if np.isfinite(row[k]) else 0.0
+        if k in percent_keys:
+            v *= 100.0
+        if k == "motp":
+            v = (1.0 - v) * 100.0
+        results[k] = v
+
+    gt_ids = [obj_id for frame_objs in gt_data.values() for obj_id in frame_objs.keys()]
+    repeated_gt_ids = sum(1 for cnt in np.unique(gt_ids, return_counts=True)[1] if cnt > 1) if gt_ids else 0
+    has_temporal_gt_ids = repeated_gt_ids > 0
+    return results, has_temporal_gt_ids, len(gt_data), len(tracker_data)
 
 
-def print_report(results: Dict[str, float], has_temporal_gt_ids: bool) -> None:
+def print_report(results: Dict[str, float], has_temporal_gt_ids: bool):
     print("\n" + "=" * 72)
-    print("MOT Evaluation (MOTChallenge-style CLEAR + ID metrics)")
+    print("MidFusion Tracking Evaluation (MOTChallenge-style)")
     print("=" * 72)
     ordered = [
         ("num_frames", "Frames"), ("num_objects", "GT Objects"), ("num_predictions", "Tracker Outputs"),
@@ -129,7 +117,6 @@ def print_report(results: Dict[str, float], has_temporal_gt_ids: bool) -> None:
     ]
     id_related = {"idf1", "idp", "idr", "num_switches", "mostly_tracked", "partially_tracked", "mostly_lost", "num_fragmentations"}
     count_keys = {"num_frames", "num_objects", "num_predictions", "num_switches", "num_false_positives", "num_misses", "mostly_tracked", "partially_tracked", "mostly_lost", "num_fragmentations"}
-
     for key, title in ordered:
         if (not has_temporal_gt_ids) and (key in id_related):
             print(f"{title:20}: N/A (requires temporal GT IDs)")
@@ -142,30 +129,25 @@ def print_report(results: Dict[str, float], has_temporal_gt_ids: bool) -> None:
     print("=" * 72)
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Evaluate tracking results with MOTChallenge-style metrics.")
-    parser.add_argument("--gt", type=str, default=DEFAULT_GT_FILE, help="Path to GT MOT txt file")
-    parser.add_argument("--tracker", type=str, default=DEFAULT_TRACKER_FILE, help="Path to tracker MOT txt file")
-    parser.add_argument("--iou", type=float, default=DEFAULT_IOU_THRESH, help="IoU threshold for matching (default: 0.5)")
-    parser.add_argument("--all-frames", action="store_true", help="Evaluate union(gt,tracker). Default is GT-only frames.")
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--gt", type=str, default=OUT_GT_FILE)
+    parser.add_argument("--tracker", type=str, default=OUT_TRACKER_FILE)
+    parser.add_argument("--iou", type=float, default=IOU_THRESH_EVAL)
+    parser.add_argument("--all-frames", action="store_true")
     args = parser.parse_args()
 
-    gt_data = parse_mot_file(args.gt)
-    tracker_data = parse_mot_file(args.tracker)
-    gt_ids = [obj_id for frame_objs in gt_data.values() for obj_id in frame_objs.keys()]
-    unique_gt_ids = len(set(gt_ids))
-    repeated_gt_ids = sum(1 for cnt in np.unique(gt_ids, return_counts=True)[1] if cnt > 1) if gt_ids else 0
-    has_temporal_gt_ids = repeated_gt_ids > 0
-
-    print(f"GT frames          : {len(gt_data)}")
-    print(f"Tracker frames     : {len(tracker_data)}")
+    results, has_temporal_gt_ids, n_gt_frames, n_trk_frames = evaluate_mot(
+        args.gt, args.tracker, iou_threshold=args.iou, only_gt_frames=not args.all_frames
+    )
+    print(f"GT frames          : {n_gt_frames}")
+    print(f"Tracker frames     : {n_trk_frames}")
     print(f"Eval frame policy  : {'union(gt,tracker)' if args.all_frames else 'gt-only'}")
-    if unique_gt_ids > 0 and not has_temporal_gt_ids:
+    if not has_temporal_gt_ids:
         print("[Warning] GT IDs are unique per frame; ID metrics are not valid.")
-
-    results = evaluate_mot(args.gt, args.tracker, iou_threshold=args.iou, only_gt_frames=not args.all_frames)
-    print_report(results, has_temporal_gt_ids=has_temporal_gt_ids)
+    print_report(results, has_temporal_gt_ids)
 
 
 if __name__ == "__main__":
     main()
+
