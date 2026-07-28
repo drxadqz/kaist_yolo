@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+title: "IA-DASR: Ignore-Aware Deformable Alignment and Scene Reliability Learning for RGB-T Pedestrian Detection"
+message: "If you use this software or its reported results, please cite this repository."
+type: software
+authors:
+  - family-names: "Xing"
+    given-names: "Qizheng"
+version: "1.0.0"
+date-released: "2026-07-29"
+repository-code: "https://github.com/drxadqz/kaist_yolo"
+url: "https://github.com/drxadqz/kaist_yolo"
+keywords:
+  - "RGB-T pedestrian detection"
+  - "KAIST"
+  - "multispectral detection"
+  - "deformable alignment"
+  - "ignore-aware learning"
+license: "AGPL-3.0-only"

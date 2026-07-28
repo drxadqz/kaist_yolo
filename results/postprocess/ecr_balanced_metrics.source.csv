@@ -1,0 +1,2 @@
+name,MR_all,MR_day,MR_night,source_day_images,source_night_images,support_thr,unique_factor,dense_unique_factor,duplicate_iou,duplicate_factor,support_boost,boost_thr,dense_count,density_radius,center_weight
+calibrated,0.06882647290115172,0.07462184238342871,0.04114594183448745,1599,653,0.35,0.65,0.55,0.45,0.38,0.0,0.45,3,1.25,0.35

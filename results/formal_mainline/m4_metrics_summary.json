@@ -1,0 +1,48 @@
+{
+  "weights": "['..\\\\results\\\\repro_runs\\\\EXP_KAIST_M4_DCAF_CDR_DSRE_640_S0\\\\weights\\\\best.pt']",
+  "data": "..\\configs\\KAIST_local_full.yaml",
+  "metrics": {
+    "tp": 2495.0,
+    "fp": 818.0,
+    "fn": 895.0,
+    "f1": 0.7444901574294945,
+    "precision": 0.7531908349203633,
+    "recall": 0.7359882005899705,
+    "map50": 0.7747294741668043,
+    "map5095": 0.3461109368127006
+  },
+  "mr": {
+    "all": 0.09055005661444203,
+    "day": 0.10164396996389481,
+    "night": 0.06357686794249165,
+    "near": 0.010903390464230623,
+    "medium": 0.16202741559011782,
+    "far": 0.37576900768108334,
+    "none": 0.22875510330566734,
+    "partial": 0.27908701913063305,
+    "heavy": 0.4684049497067429,
+    "recall_all": 0.9862542955326461
+  },
+  "speed_ms": {
+    "inference": 74.6787661557511,
+    "nms": 3.2811574571721294,
+    "total": 77.95992361292322,
+    "img_size_h": 640,
+    "img_size_w": 640,
+    "batch_size": 2
+  },
+  "robustness": {
+    "shift_rgb_x": 0,
+    "shift_rgb_y": 0,
+    "shift_ir_x": 0,
+    "shift_ir_y": 0,
+    "rgb_darken": 1.0,
+    "ir_darken": 1.0,
+    "rgb_noise_std": 0.0,
+    "ir_noise_std": 0.0,
+    "rgb_dropout": false,
+    "ir_dropout": false,
+    "rgb_center_occl_frac": 0.0,
+    "ir_center_occl_frac": 0.0
+  }
+}

@@ -1,0 +1,31 @@
+# Stage-2 continuation fine-tuning for IA-DASR.
+# Use this after the 3-epoch pilot checkpoint so the model can leave full warmup
+# and converge more conservatively under the strict-label + ignore-aware setup.
+
+lr0: 0.0005
+lrf: 0.2
+momentum: 0.937
+weight_decay: 0.00005
+warmup_epochs: 1.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.005
+box: 0.05
+cls: 0.5
+cls_pw: 1.0
+obj: 1.0
+obj_pw: 1.0
+iou_t: 0.20
+anchor_t: 4.0
+fl_gamma: 0.0
+hsv_h: 0.015
+hsv_s: 0.5
+hsv_v: 0.3
+degrees: 0.0
+translate: 0.05
+scale: 0.25
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5
+mosaic: 0.0
+mixup: 0.0

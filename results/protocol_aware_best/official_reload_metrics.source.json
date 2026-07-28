@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "record_id": "KAIST_R2I_PLUS",
+  "evidence_kind": "sanitized_archive_export",
+  "archive_id": "ia_dasr_round2i_plus_best_single_model_20260504",
+  "archived_at": "2026-05-04",
+  "source_artifact": "MODEL_CARD.md describing an official reload/fused re-evaluation of the archived result.txt",
+  "source_artifact_sha256": "9D23893C617031D8DA19ADD4C89F58F2387AAD8915913143CF8CFE97304A7E8A",
+  "checkpoint_sha256": "626D279F6C0D547F3559B3483009D9C34F860D1D9A1D970F9950F38BAC03B7C6",
+  "dataset": "KAIST",
+  "protocol": "Reasonable",
+  "input_size": 640,
+  "seed": 0,
+  "setting": "protocol_optimized",
+  "official_reload_metrics_percent": {
+    "mr_all": 6.909,
+    "mr_day": 7.37,
+    "mr_night": 4.844,
+    "mr_near": 0.79,
+    "mr_medium": 14.31,
+    "mr_far": 50.89,
+    "mr_none": 25.83,
+    "mr_partial": 25.93,
+    "mr_heavy": 49.96,
+    "recall_all": 98.42
+  },
+  "training_time_epoch_2_reference_percent": {
+    "mr_all": 6.88991,
+    "mr_day": 7.36798,
+    "mr_night": 4.83575,
+    "map50": 71.7859,
+    "map50_95": 34.7485,
+    "recall_all": 98.4182
+  },
+  "required_inference_switches": {
+    "kaist_day_roi_filter": true,
+    "kaist_night_score_calibration": true,
+    "pcsf_apply_in_inference": true,
+    "pcsf_semantic_alpha": 0.05,
+    "pcsf_factor_min": 0.95,
+    "pcsf_factor_max": 1.06,
+    "pcsf_semantic_center": 0.25,
+    "pcsf_score_beta": 4.0
+  },
+  "claim_boundary": "Single archived checkpoint with KAIST-specific protocol and score calibration; not the formal mainline, a routed system, or an LLM result.",
+  "provenance_note": "This is a path-sanitized machine-readable export of the archived evidence card. Raw predictions and the checkpoint are not redistributed."
+}
