@@ -5,7 +5,7 @@ The experiment copilot is a small, optional **result-to-report** utility. It rea
 an auditable prompt or JSON context. Its default mode is completely local: no
 network request, API key, OpenAI package, or Pydantic installation is required.
 
-This utility is not part of IA-DASR training or inference. The detector does not
+This utility is not part of DARP-Net training or inference. The detector does not
 use an LLM, and none of its detection metrics should be attributed to an LLM.
 The only LLM-backed operation is the optional conversion of an existing result
 table into a first-draft report after the user explicitly supplies
@@ -128,7 +128,7 @@ Keep the following fields explicit whenever they apply:
 
 ## 中文说明
 
-实验报告助手只是一个可选的“结果表转报告”工具，并不是检测器的一部分。IA-DASR
+实验报告助手只是一个可选的“结果表转报告”工具，并不是检测器的一部分。DARP-Net
 的训练、融合与推理过程不调用大语言模型，因此不能把任何检测指标写成“LLM
 带来的提升”。默认命令只在本地读取 CSV、生成提示词或 JSON，不联网，也不需要
 API Key。

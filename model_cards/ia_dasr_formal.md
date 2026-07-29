@@ -1,4 +1,4 @@
-# IA-DASR formal mainline model card
+# DARP-Fusion protocol-neutral predecessor model card
 
 ## Summary
 

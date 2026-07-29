@@ -9,7 +9,7 @@ distinguishes countable people from ignored regions. A detector that simply
 concatenates the two images can therefore learn confident but protocol-invalid
 responses.
 
-IA-DASR addresses three coupled failure modes:
+DARP-Net addresses three coupled failure modes:
 
 1. **local geometric mismatch** between the visible and thermal streams;
 2. **modality conflict and scene-dependent reliability**;
@@ -52,8 +52,9 @@ local offsets:
 \tanh\left(\phi_k([F^v(p),F^t(p)])\right)s .
 \]
 
-The bounded \(\tanh\) and scale \(s\) keep sampling local. Cross-modal attention
-then aggregates sampled thermal values:
+The bounded \(\tanh\) and scale \(s\) keep sampling local. Each DCAF block uses
+multi-head, Transformer-style cross-modal attention to aggregate the sampled
+thermal values:
 
 \[
 a_k^v(p) =
@@ -131,9 +132,9 @@ This is a training-time correction, not a post-hoc metric trick. The exact
 dataset and evaluation protocol still matter; see
 [`DATASET.md`](DATASET.md).
 
-## Formal mainline
+## DARP-Fusion: protocol-neutral predecessor
 
-The formal public method is:
+The protocol-neutral fusion predecessor is:
 
 ```text
 DCAF + CDR + DSRE + ignore-aware objectness
@@ -147,13 +148,14 @@ Its canonical same-protocol re-evaluation is:
 MR-all / MR-day / MR-night = 7.137 / 7.917 / 4.159 %
 ```
 
-This is the safest single-model claim because its setting is explicit and its
-source is in the release.
+This line is retained as a clean fusion ablation and historical reference. The
+locked thesis-facing model is DARP-Net below.
 
-## Protocol-aware Round 2I+ branch
+## DARP-Net: PFH, BPSC, and PUR
 
-Round 2I+ retains the normal box, objectness, and class outputs, then adds a
-protocol-semantic branch for humanness \(H\), countability \(C\), groupness
+DARP-Net (historical experiment identifier `IA-DASR Round 2I+`) retains the
+normal box, objectness, and class outputs, then adds a Protocol Factorization
+Head (PFH) for humanness \(H\), countability \(C\), groupness
 \(G\), uncertainty \(U\), and bounded protocol bias \(B\):
 
 \[
@@ -161,7 +163,8 @@ q = c + B - \alpha_G G - \alpha_U U,
 \qquad C=\sigma(q), \qquad S_{sem}=H C.
 \]
 
-At inference, the semantic score is allowed to apply only a weak bounded factor:
+At inference, Bounded Protocol Score Calibration (BPSC) allows the semantic
+score to apply only a weak bounded factor:
 
 \[
 r = \operatorname{clip}
@@ -178,21 +181,23 @@ The archived runtime used:
 alpha=0.05, r_min=0.95, r_max=1.06, mu=0.25, beta=4.0
 ```
 
-Round 2I+ also uses a KAIST daytime ROI filter and night score calibration.
-Therefore its `6.909%` official reload MR-all is reported as a
-**protocol-optimized single checkpoint**, not as the formal generic mainline.
+DARP-Net also uses Protocol-risk Upper-bound Regularization (PUR) during
+training, plus a KAIST daytime ROI filter and night score calibration at
+evaluation. Its `6.909%` official reload MR-all is therefore reported as a
+**protocol-aware single checkpoint** with a KAIST-specific boundary, not as a
+generic cross-dataset claim.
 
 ## System extensions
 
 IAER routes between expert predictions using estimated illumination. ECR
 calibrates and reranks already-generated predictions. These are useful system
-experiments, but neither changes the formal IA-DASR architecture claim:
+experiments, but neither changes the DARP-Net single-checkpoint claim:
 
 ```text
-formal single model         IA-DASR                         7.137% MR-all
-protocol-optimized model    IA-DASR Round 2I+               6.909% MR-all
-routed system               IA-DASR + IAER                  6.900% MR-all
-post-processing system      IA-DASR + IAER + ECR            6.841% MR-all
+protocol-neutral model      DARP-Fusion (IA-DASR Stage2)    7.137% MR-all
+locked thesis model         DARP-Net (Round 2I+)            6.909% MR-all
+routed system               DARP-Net + IAER                 6.900% MR-all
+post-processing system      DARP-Net + IAER + ECR           6.841% MR-all
 ```
 
 ## Original contribution boundary
@@ -219,8 +224,8 @@ The same-protocol timing snapshot reports:
 | Early Fusion 6-channel | 19.04 | 52.5 FPS |
 | DCAF | 44.53 | 22.5 FPS |
 | DCAF + CDR | 85.57 | 11.7 FPS |
-| IA-DASR formal | 59.52 | 16.8 FPS |
+| DARP-Fusion | 59.52 | 16.8 FPS |
 
 These numbers are environment-specific and are not a hardware-neutral benchmark.
-They make the core trade-off visible: IA-DASR improves low-FPPI miss rate but is
+They make the core trade-off visible: DARP-Fusion improves low-FPPI miss rate but is
 roughly 3.1× slower than the early-fusion baseline in the recorded snapshot.

@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "IA-DASR: Ignore-Aware Deformable Alignment and Scene Reliability Learning for RGB-T Pedestrian Detection"
+title: "DARP-Net: Deformable Alignment, Reliability Modeling and Protocol-aware Detection for RGB-T Pedestrians"
 message: "If you use this software or its reported results, please cite this repository."
 type: software
 authors:
@@ -14,5 +14,7 @@ keywords:
   - "KAIST"
   - "multispectral detection"
   - "deformable alignment"
+  - "Transformer cross-attention"
+  - "reliability modeling"
   - "ignore-aware learning"
 license: "AGPL-3.0-only"

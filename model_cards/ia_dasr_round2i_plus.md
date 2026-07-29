@@ -1,8 +1,9 @@
-# IA-DASR Round 2I+ model card
+# DARP-Net model card
 
 ## Summary
 
-Round 2I+ is the best archived **single-checkpoint, protocol-optimized** IA-DASR
+DARP-Net (historical run identifier `IA-DASR Round 2I+`) is the locked archived
+**single-checkpoint, protocol-aware** RGB-T
 variant. It adds a factorized protocol-semantic head and bounded score
 calibration to the dual-stream detector.
 
@@ -13,7 +14,7 @@ calibration to the dual-stream detector.
 | Checkpoint setting | one inference checkpoint |
 | Inference checkpoint SHA-256 | `626D279F6C0D547F3559B3483009D9C34F860D1D9A1D970F9950F38BAC03B7C6` |
 | Architecture config | `configs/models/ia_dasr_round2i_plus.yaml` |
-| Claim class | protocol-optimized, not formal mainline |
+| Claim class | locked thesis model; KAIST protocol-aware |
 
 ## Locked result
 
@@ -66,7 +67,7 @@ artifacts.
 
 ## Prohibited descriptions
 
-- generic IA-DASR mainline;
+- protocol-neutral DARP-Fusion predecessor;
 - state of the art;
 - general multispectral foundation model;
 - LLM or VLM detector;

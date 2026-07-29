@@ -24,7 +24,7 @@
 
 ## Notes
 
-- This is the key same-protocol evidence that IA-DASR's MR improvement is not
+- This is the key repository reference showing that DARP-Fusion/DARP-Net's MR improvement is not
   explained by naive paired-input concatenation alone.
 - Older project notes contained a different `13.90%` MR snapshot. It is not used
   in public claims.

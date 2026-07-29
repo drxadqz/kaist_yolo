@@ -1,7 +1,7 @@
-# Round 2I+ evidence snapshot
+# DARP-Net evidence snapshot
 
 This directory contains the selected, non-weight evidence copied from the
-archived Round 2I+ run:
+archived DARP-Net run (historical identifier `Round 2I+`):
 
 - `results.csv`: three training/validation rows;
 - `opt.yaml`: sanitized run options;
@@ -26,7 +26,7 @@ The inference checkpoint is not committed. Its verified SHA-256 is:
 626D279F6C0D547F3559B3483009D9C34F860D1D9A1D970F9950F38BAC03B7C6
 ```
 
-This is a protocol-optimized single-checkpoint result. It includes a KAIST
-daytime ROI filter, night score calibration, and bounded PCSF semantic score
-factor. It is not the protocol-neutral formal mainline and is not an LLM/VLM
+This is the locked DARP-Net protocol-aware single-checkpoint result. It includes a KAIST
+daytime ROI filter, night score calibration, and bounded BPSC semantic score
+factor. It is not the protocol-neutral DARP-Fusion predecessor and is not an LLM/VLM
 result.

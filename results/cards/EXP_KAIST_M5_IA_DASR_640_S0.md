@@ -2,7 +2,7 @@
 
 - Status: `validated`
 - Setting: `formal single-model mainline`
-- Paper name: `IA-DASR-main`
+- Public name: `DARP-Fusion`; historical identifier: `IA-DASR-main`
 - Model: `DCAF + CDR + DSRE + ignore-aware objectness`
 - Dataset: `KAIST`
 - Protocol: `Reasonable`

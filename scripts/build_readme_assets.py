@@ -18,7 +18,7 @@ SELECTED_IDS = (
     "KAIST_B2_EARLY6",
     "KAIST_M1_DCAF",
     "KAIST_M2_DCAF_CDR",
-    "KAIST_M5_FORMAL",
+    "KAIST_R2I_PLUS",
 )
 
 
@@ -43,7 +43,7 @@ def build_chart(input_path: Path, output_path: Path) -> None:
         "Early Fusion (6ch)",
         "DCAF",
         "DCAF + CDR",
-        "IA-DASR",
+        "DARP-Net",
     ]
     values = [float(row["mr_all_pct"]) for row in rows]
     colors = ["#A7B5C8", "#7D9CB8", "#E9A05B", "#6C8CD5", "#4C72C2", "#13A68A"]
@@ -69,7 +69,7 @@ def build_chart(input_path: Path, output_path: Path) -> None:
     ax.set_xlim(0, 43)
     ax.set_xlabel("Log-average miss rate, MR-all (%)  ·  lower is better", labelpad=12)
     ax.set_title(
-        "IA-DASR cuts KAIST miss rate by 47.3% vs. early fusion",
+        "DARP-Net reaches 6.91% MR-all on KAIST Reasonable",
         loc="left",
         fontsize=17,
         pad=20,
@@ -78,7 +78,7 @@ def build_chart(input_path: Path, output_path: Path) -> None:
     ax.text(
         0,
         1.015,
-        "Same-protocol repository re-evaluation · KAIST Reasonable · input 640 · seed 0",
+        "Early-fusion reference and locked DARP-Net checkpoint · input 640 · seed 0",
         transform=ax.transAxes,
         ha="left",
         va="bottom",
@@ -123,7 +123,7 @@ def build_chart(input_path: Path, output_path: Path) -> None:
     ax.text(
         0.64,
         0.225,
-        "FORMAL SINGLE-MODEL GAIN",
+        "LOCKED CHECKPOINT COMPARISON",
         transform=ax.transAxes,
         fontsize=8.5,
         fontweight="bold",
@@ -150,7 +150,7 @@ def build_chart(input_path: Path, output_path: Path) -> None:
     fig.text(
         0.105,
         0.022,
-        "Source: results/benchmark_summary.csv · protocol-aware/system rows excluded from this chart",
+        "Source: results/benchmark_summary.csv · DARP-Net uses documented KAIST-specific protocol settings",
         fontsize=8.5,
         color="#718096",
     )
@@ -274,7 +274,7 @@ def build_architecture(output_path: Path) -> None:
     ax.text(
         0.04,
         0.94,
-        "IA-DASR · reliability-aware RGB–thermal detection",
+        "DARP-Net · Transformer-based RGB–thermal detection",
         fontsize=22,
         fontweight="bold",
         color=colors["ink"],
@@ -331,8 +331,8 @@ def build_architecture(output_path: Path) -> None:
         )
 
     box(
-        (0.75, 0.365),
-        0.105,
+        (0.725, 0.365),
+        0.115,
         0.17,
         "PAN/FPN",
         "multi-scale neck",
@@ -342,22 +342,22 @@ def build_architecture(output_path: Path) -> None:
     for center_y in fusion_y:
         arrow(
             (0.665, center_y),
-            (0.75, 0.45),
+            (0.725, 0.45),
             colors["fusion"],
             width=1.7,
         )
 
     box(
-        (0.895, 0.365),
-        0.075,
+        (0.865, 0.365),
+        0.12,
         0.17,
-        "Detect",
-        "box · obj · cls",
+        "PFH head",
+        "box · obj · cls\nH/C/G/U/B semantics",
         colors["head"],
         colors["head_fill"],
-        title_size=12,
+        title_size=11.5,
     )
-    arrow((0.855, 0.45), (0.895, 0.45), colors["neutral"])
+    arrow((0.84, 0.45), (0.865, 0.45), colors["neutral"])
 
     # Training-only supervision boundary.
     supervision = FancyBboxPatch(
@@ -375,7 +375,7 @@ def build_architecture(output_path: Path) -> None:
     ax.text(
         0.4275,
         0.102,
-        "Training only · ignore-aware objectness + reliability auxiliary supervision",
+        "Training only · ignore-aware objectness + reliability supervision + PUR",
         ha="center",
         va="center",
         fontsize=10,
@@ -407,7 +407,7 @@ def build_architecture(output_path: Path) -> None:
     ax.text(
         0.86,
         0.138,
-        "Round 2I+ only",
+        "DARP-Net inference",
         ha="center",
         va="center",
         fontsize=9.5,
@@ -417,7 +417,7 @@ def build_architecture(output_path: Path) -> None:
     ax.text(
         0.86,
         0.103,
-        "bounded protocol-semantic score factor",
+        "PFH semantics + bounded BPSC factor",
         ha="center",
         va="center",
         fontsize=8.4,
@@ -435,7 +435,7 @@ def build_architecture(output_path: Path) -> None:
     ax.text(
         0.04,
         0.015,
-        "Formal mainline: DCAF + CDR + DSRE + ignore-aware objectness · protocol-aware calibration is reported separately",
+        "DARP-Net: DCAF + CDR + DSRE + PFH/BPSC/PUR · KAIST-specific settings are disabled in portable variants",
         fontsize=8.8,
         color=colors["muted"],
         ha="left",
