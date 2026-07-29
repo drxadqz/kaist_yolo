@@ -1,19 +1,86 @@
-# 可视化结果
-vis_results/
-kaist_full_label_visual_check/
+# Secrets and machine-local state
+.env
+.env.*
+!.env.example
+auths/
+secrets/
+credentials/
+*.db
+*.sqlite
+*.sqlite3
+*.pem
+*.key
+*.p12
+*.pfx
+*token*.json
+*credentials*.json
+*_login_*.py
+*_login_*.ps1
 
-# Python缓存
+# Python
 __pycache__/
-*.pyc
-
-# PyCharm配置
-.idea/
-
-
-
-# 虚拟环境
+*.py[cod]
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
 venv/
 env/
 
-# 日志
+# Datasets, checkpoints, and generated runs
+/datasets/
+/data/raw/
+/data/processed/
+checkpoints/*
+!checkpoints/README.md
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.engine
+*.safetensors
+/runs/
+/wandb/
+/mlruns/
+/outputs/
+/artifacts/
+/predictions/
+*.cache
+
+# Large research artifacts
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.doc
+*.docx
+*.ppt
+*.pptx
+*.pdf
+*.zip
+*.7z
+*.tar
+*.gz
+
+# Editors and operating systems
+.idea/
+.vscode/
+.claude/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+*.reg
+~$*
+
+# Local logs and scratch space
 *.log
+tmp/
+temp/
+scratch/
+_system_backups/
+_external/

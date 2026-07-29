@@ -1,0 +1,40 @@
+id: EXP_KAIST_M5_IA_DASR_640_S0
+status: validated
+scope: formal_mainline
+paper_name: IA-DASR-main
+dataset: KAIST
+protocol: Reasonable
+model_cfg: configs/models/ia_dasr_formal.yaml
+source_model_cfg: src/models/transformer/yolov5s_Transfusion_KAIST_IA_DASR_3050.yaml
+data_cfg: configs/datasets/kaist.example.yaml
+hyp_cfg: configs/experiments/hyp.formal_stage2.yaml
+train:
+  initial_weights: checkpoints/ia_dasr_stage1_best.pt
+  epochs: 10
+  batch_size: 1
+  img_size: [640, 640]
+  workers: 0
+  seed: 0
+flags:
+  - --kaist-day-roi-filter
+  - --kaist-ignore-aware-obj
+  - --drr-aux-weight 0.03
+  - --drr-aux-warmup 2.0
+  - --drr-aux-fg-gain 1.0
+  - --drr-aux-conflict-gain 0.35
+  - --drr-aux-rgb-bg-gain 0.15
+  - --drr-aux-day-gain 0.25
+  - --drr-aux-box-pad 0.08
+  - --drr-aux-day-thr 0.28
+  - --drr-aux-day-tau 0.08
+eval:
+  checkpoint: checkpoints/ia_dasr_stage2_e10_best.pt
+evidence:
+  - results/formal_mainline/opt.yaml
+  - results/formal_mainline/summary_repro_eval.source.csv
+  - results/cards/EXP_KAIST_M5_IA_DASR_640_S0.md
+notes:
+  - This is the formal single-model result that the public paper line should anchor to.
+  - The validated run was a stage-2 continuation, not a 10-epoch from-scratch run.
+  - The exact stage-1 checkpoint is not yet distributed; this is a recorded reproducibility gap.
+  - For a camera-ready ablation table, normalize the training budget and hypers across M1-M5 as much as possible.

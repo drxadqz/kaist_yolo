@@ -1,0 +1,19 @@
+# IA-DASR research runtime.
+# Install a CUDA-compatible torch/torchvision pair for your platform first:
+# https://pytorch.org/get-started/locally/
+matplotlib>=3.7,<4
+numpy>=1.23,<3
+opencv-python>=4.6,<5
+Pillow>=9,<12
+PyYAML>=6,<7
+scipy>=1.9,<2
+torch>=2.0
+torchvision>=0.15
+tqdm>=4.64,<5
+tensorboard>=2.12
+seaborn>=0.12,<1
+pandas>=1.5,<3
+thop>=0.1.1
+pycocotools>=2.0.6
+timm>=0.9
+einops>=0.6

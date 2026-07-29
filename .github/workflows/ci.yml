@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  release-integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile Python sources
+        run: python -m compileall -q scripts tests src
+
+      - name: Validate release
+        run: python scripts/validate_release.py
+
+      - name: Run offline tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Exercise offline experiment copilot
+        run: >-
+          python scripts/experiment_copilot.py
+          --format context-json
+          --output artifacts/experiment_context.json

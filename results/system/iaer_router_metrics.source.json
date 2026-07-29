@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "record_id": "KAIST_IAER_ROUTER",
+  "evidence_kind": "sanitized_evaluator_summary",
+  "source_run_id": "kaist_iaer_daygate_stage2router_eval",
+  "source_artifact": "summary.txt",
+  "source_artifact_sha256": "EE891AEB403AB202D96EEEF0AEC040D268FB56CD1E49E2989B148491C0C25823",
+  "dataset": "KAIST",
+  "protocol": "Reasonable",
+  "input_size": 640,
+  "seed": 0,
+  "setting": "system",
+  "router": {
+    "route_source": "day_gate",
+    "threshold_mode": "split_accuracy",
+    "threshold": 0.37566623,
+    "invert": false,
+    "route_accuracy": 0.805062,
+    "day_expert_run_id": "kaist_dasr_iao_strict_v2_clean_eval",
+    "night_expert_run_id": "kaist_ia_dasr_stage2_e10_eval"
+  },
+  "metrics_fraction": {
+    "mr_all": 0.069,
+    "mr_day": 0.0762,
+    "mr_night": 0.0419
+  },
+  "claim_boundary": "Routed multi-expert system; not a single-detector checkpoint.",
+  "provenance_note": "Absolute local label paths were replaced by run identifiers; metric and router values are unchanged."
+}

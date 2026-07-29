@@ -1,0 +1,3 @@
+# Optional dependency group for the evidence-grounded experiment copilot.
+openai>=2.49.0,<3
+pydantic>=2.7,<3

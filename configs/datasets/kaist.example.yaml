@@ -1,0 +1,11 @@
+# Portable KAIST dataset template.
+# Build this layout with src/setup_local_kaist.py. Dataset content is ignored by Git.
+path: ./datasets/KAIST_local_strict
+train_rgb: ./datasets/KAIST_local_strict/visible/train
+val_rgb: ./datasets/KAIST_local_strict/visible/test
+train_ir: ./datasets/KAIST_local_strict/infrared/train
+val_ir: ./datasets/KAIST_local_strict/infrared/test
+day_night_split: 1455
+
+nc: 1
+names: ["person"]

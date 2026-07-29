@@ -1,0 +1,4 @@
+epoch,train/box_loss,train/obj_loss,train/cls_loss,train/aux_or_rank_loss,TP,FP,FN,F1,metrics/precision,metrics/recall,metrics/mAP_0.5,metrics/mAP_0.5:0.95,val/box_loss,val/obj_loss,val/cls_loss,val/rank_loss,x/lr0,x/lr1,x/lr2,MR_all,MR_day,MR_night,MR_near,MR_medium,MR_far,MR_none,MR_partial,MR_heavy,Recall_all
+0,0.0440212,0.0234836,0,0,5254,906,2714,0.743769,0.852922,0.659385,0.71328,0.294443,0.0435461,0.0232227,0,0,1e-05,1e-05,1e-05,0,0,0,0,0,0,0,0,0,0
+1,0.0429262,0.0219398,0,0,5400,821,2568,0.761144,0.868004,0.677711,0.737957,0.30634,0.0423643,0.0216964,0,0,1e-05,1e-05,1e-05,0,0,0,0,0,0,0,0,0,0
+2,0.042055,0.0208462,0,0,5529,786,2439,0.774204,0.875534,0.693896,0.752796,0.312277,0.0416832,0.020799,0,0,8e-06,8e-06,8e-06,0,0,0,0,0,0,0,0,0,0
