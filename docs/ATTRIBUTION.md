@@ -65,7 +65,7 @@ containing adapted KAIST frames are separately marked CC BY-NC-SA 4.0 in
 
 The project owner's work includes:
 
-- three-scale lightweight IA-DASR integration;
+- three-scale lightweight DARP-Net integration;
 - consensus/detail and detail-scene reliability modules;
 - ignore-aware and protocol-semantic supervision;
 - KAIST-specific bounded calibration experiments;

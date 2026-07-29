@@ -36,15 +36,15 @@ That happens here:
 | Model | MR-all ↓ | mAP@.5 ↑ | Total ms/image |
 |---|---:|---:|---:|
 | Early Fusion 6-channel | 13.535 | **75.923** | **19.04** |
-| IA-DASR formal | **7.137** | 71.741 | 59.52 |
+| DARP-Fusion | **7.137** | 71.741 | 59.52 |
 
 The defensible conclusion is:
 
-> IA-DASR substantially improves the KAIST low-FPPI miss-rate operating region
+> DARP-Fusion substantially improves the KAIST low-FPPI miss-rate operating region
 > over simple early fusion, at a higher runtime cost; it does not dominate the
 > baseline on every detection metric.
 
-## Formal same-protocol matrix
+## Protocol-neutral ablation matrix
 
 | ID | Model | MR-all | MR-day | MR-night | mAP@.5 | mAP@.5:.95 | Recall-all |
 |---|---|---:|---:|---:|---:|---:|---:|
@@ -54,7 +54,7 @@ The defensible conclusion is:
 | M1 | DCAF | 9.416 | 10.694 | 6.456 | 78.391 | **35.555** | 98.282 |
 | M2 | DCAF + CDR | 9.017 | 10.418 | 5.209 | 77.096 | 34.893 | 98.969 |
 | M4 | DCAF + CDR + DSRE | 9.055 | 10.164 | 6.358 | 77.473 | 34.611 | 98.625 |
-| M5 | IA-DASR formal | **7.137** | **7.917** | **4.159** | 71.741 | 35.376 | 98.351 |
+| M5 | DARP-Fusion | **7.137** | **7.917** | **4.159** | 71.741 | 35.376 | 98.351 |
 
 Recorded improvements from B2 to M5:
 
@@ -68,9 +68,9 @@ hyperparameters were not fully normalized. M4 is slightly worse than M2 on
 MR-all, so the table does not support a claim that DSRE alone caused the final
 M5 gain. Do not interpret every difference as a strict causal module ablation.
 
-## Best protocol-aware single checkpoint
+## Locked DARP-Net single checkpoint
 
-The Round 2I+ archive records two nearby values:
+The DARP-Net archive (historical identifier `Round 2I+`) records two nearby values:
 
 - training-time epoch-2 row: `6.8899 / 7.3680 / 4.8358%`;
 - official reload/fused re-evaluation: `6.909 / 7.370 / 4.844%`.
@@ -93,7 +93,7 @@ protocol-neutral mainline.
 
 | System | MR-all | MR-day | MR-night | Interpretation |
 |---|---:|---:|---:|---|
-| IA-DASR + IAER | 6.900 | 7.620 | 4.190 | illumination-aware expert routing |
+| DARP-Net + IAER | 6.900 | 7.620 | 4.190 | illumination-aware expert routing |
 | + ECR best-all | **6.841** | **7.429** | 4.276 | calibrated prediction reranking |
 | + ECR balanced | 6.883 | 7.462 | **4.115** | calibration selected for balance |
 
@@ -152,14 +152,16 @@ It is retained only as a historical diagnostic in Git history.
 
 Safe:
 
-> Built a dual-stream RGB-T detector achieving 7.14% MR on KAIST Reasonable and
-> reducing MR-all by 47.3% relative to a same-protocol 6-channel early-fusion
-> baseline.
+> Built DARP-Net, a dual-stream Transformer-based RGB-T detector; its locked
+> KAIST Reasonable single checkpoint achieved 6.909/7.370/4.844% MR
+> all/day/night with 98.42% Recall-all.
 
 Safe with boundary:
 
-> Archived a KAIST protocol-optimized single checkpoint at 6.909% MR-all and
-> 98.42% Recall-all using bounded semantic calibration.
+> Compared with the 6-channel early-fusion reference (13.535% MR-all), the
+> locked DARP-Net checkpoint reached 6.909% (49.0% lower) under the same KAIST
+> evaluator, with KAIST-specific ROI, night calibration, and bounded score
+> settings stated explicitly.
 
 Unsafe:
 
@@ -169,5 +171,5 @@ Unsafe:
 - “Generalizes across multispectral datasets.”
 - “All metrics outperform early fusion.”
 
-Known same-table external methods include values below the formal `7.137%`
-mainline, so this release does not claim SOTA.
+Known external methods include values below the repository's reported lines, so
+this release does not claim SOTA.

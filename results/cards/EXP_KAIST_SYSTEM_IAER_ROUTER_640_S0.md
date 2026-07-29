@@ -22,5 +22,5 @@
 
 ## Notes
 
-- This is not the formal single-model IA-DASR result.
+- This is not the single-checkpoint DARP-Net result.
 - It is a routed or combined system result and must stay outside the mainline single-model claim set.

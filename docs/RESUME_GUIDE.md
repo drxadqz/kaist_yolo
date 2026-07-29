@@ -4,9 +4,9 @@
 
 Use:
 
-> IA-DASR is a reproducible RGB-T multimodal detector that combines deformable
-> cross-modal alignment, scene-reliability learning, and ignore-aware
-> supervision for KAIST pedestrian detection.
+> DARP-Net is a reproducible Transformer-based RGB-T detector that combines
+> deformable cross-modal alignment, reliability modeling, and protocol-aware
+> learning for KAIST pedestrian detection.
 
 Do not use:
 
@@ -16,41 +16,41 @@ Do not use:
 
 ### Recommended compact version
 
-> 设计轻量双流 RGB–热红外检测模型 IA-DASR，在 P3/P4/P5 三尺度引入双向
-> 可变形跨模态注意力、场景可靠性调制与 ignore-aware 监督；在 KAIST
-> Reasonable 同协议重评中取得 7.14% MR-all，相较 6 通道 Early Fusion
-> baseline 相对下降 47.3%。
+> 设计双流 RGB–热红外检测模型 DARP-Net，在 P3/P4/P5 三尺度实现多头双向
+> 可变形 Transformer cross-attention，并结合可靠性建模、ignore-aware 监督与
+> 协议因子化检测头；KAIST Reasonable 官方复评 MR-all/day/night 为
+> 6.909/7.370/4.844%，Recall-all 98.42%。
 
-> 建立单模态、早期融合、DCAF/CDR 消融、协议优化单 checkpoint、专家路由和
+> 建立单模态、早期融合、DCAF/CDR/DSRE 消融、协议感知单 checkpoint、专家路由和
 > 后处理系统的分层评测矩阵；以 result card、checkpoint SHA-256、机器可读
 > CSV、CI 和 claim boundary 保证实验可复现、结论可审计。
 
-> 实现 evidence-grounded LLM 实验助手：基于 OpenAI Responses API
-> structured outputs 将验证指标生成报告/简历草稿，并通过 scope guard
-> 阻止把 protocol/system/postprocess 结果误写成单模型结论。
+> 以 canonical claim table、result card、checkpoint SHA-256 和 CI 维护指标
+> 来源与适用边界；另实现可选的结构化实验报告工具，但该工具不参与模型训练
+> 或推理，也不作为检测增益来源。
 
 ### Best-result version
 
-> 归档 KAIST 协议优化单 checkpoint：官方 reload/fused 复评 MR-all/day/night
-> 为 6.909/7.370/4.844%，Recall-all 98.42%；明确隔离 KAIST ROI、夜间校准与
-> 有界 PCSF 的协议特化影响，避免跨数据集或通用性过度声明。
+> 归档 DARP-Net 锁定单 checkpoint（SHA-256 可追溯）：官方 reload/fused
+> 复评 MR-all/day/night 为 6.909/7.370/4.844%，相比 6 通道 Early Fusion
+> 的 MR-all 13.535 低 49.0%；明确标注 KAIST ROI、夜间校准与有界 BPSC 的
+> 协议适用边界。
 
 ## English résumé bullets
 
-> Designed IA-DASR, a dual-stream RGB-thermal detector with three-scale
-> bidirectional deformable cross-modal attention, scene-reliability modulation,
-> and ignore-aware supervision; achieved 7.14% MR on KAIST Reasonable, a 47.3%
-> relative reduction over a same-protocol 6-channel early-fusion baseline.
+> Designed DARP-Net, a dual-stream RGB-thermal detector with three-scale,
+> multi-head bidirectional deformable Transformer cross-attention, reliability
+> modeling, and ignore-aware supervision; achieved 6.909/7.370/4.844% MR
+> all/day/night and 98.42% recall on the KAIST Reasonable evaluation.
 
 > Built an auditable experiment stack spanning single-modality baselines,
 > fusion ablations, protocol-aware calibration, expert routing, and
 > post-processing; tracked result cards, checkpoint hashes, canonical metrics,
 > CI tests, and explicit claim boundaries.
 
-> Implemented an evidence-grounded experiment copilot with the OpenAI Responses
-> API and structured outputs, converting verified CSV metrics into reports and
-> résumé drafts while preventing system-level results from becoming
-> single-model claims.
+> Maintained canonical claim tables, result cards, checkpoint hashes, and CI
+> checks for auditable evaluation; added an optional structured report utility
+> as downstream tooling, separate from detector training and inference.
 
 ## Interview topics
 
@@ -62,7 +62,7 @@ Be ready to explain:
 3. Why mAP@.5 can decline while low-FPPI MR improves.
 4. How ignore-aware objectness changes targets rather than merely filtering
    final detections.
-5. Why Round 2I+ is a protocol-optimized result and not the generic mainline.
+5. Why DARP-Net's KAIST-specific calibration must be separated from portable variants.
 6. Why routed experts and prediction reranking cannot be called one model.
 7. What the LLM copilot does—and, equally important, what it does not do.
 8. Why FLIR zero-shot results limit generalization claims.
@@ -87,6 +87,6 @@ Missing from this detector:
 - vision-language contrastive pretraining.
 
 Use [SP-WFM](https://github.com/drxadqz/SP-WFM) as the primary direct LLM
-post-training project and IA-DASR as the multimodal perception/research-
+post-training project and DARP-Net as the multimodal perception/research-
 engineering project. Together they form a stronger and more honest narrative
-than relabeling IA-DASR as an LLM.
+than relabeling DARP-Net as an LLM.

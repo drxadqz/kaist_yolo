@@ -7,7 +7,7 @@
 - formal experiment recipe;
 - full-precision re-evaluation summary;
 - result and model cards;
-- selected training metadata and plots for Round 2I+;
+- selected training metadata and plots for DARP-Net (historical `Round 2I+`);
 - SHA-256 for the archived inference checkpoint;
 - release-integrity and LLM-copilot tests.
 
@@ -61,11 +61,11 @@ python src/models/yolo_test.py \
 
 The curated release was smoke-tested with PyTorch `2.11.0+cpu`. Both graph
 variants completed construction and a paired `1 × 3 × 128 × 128` forward pass:
-the formal model reported 32.45M parameters and the factorized Round 2I+ model
+the DARP-Fusion model reported 32.45M parameters and the factorized DARP-Net model
 reported 32.46M. This validates graph/source compatibility, not checkpoint
 accuracy or full-dataset reproduction.
 
-## Formal training
+## DARP-Fusion training predecessor
 
 The validated formal run was a stage-2 continuation. Its sanitized archived
 options are in
@@ -106,7 +106,7 @@ initialization and deterministic backend state when re-running. A from-scratch
 experiment can pass an empty `--weights` value, but it is a new experiment and
 must not be expected to reproduce the 10-epoch continuation result.
 
-## Formal evaluation
+## DARP-Fusion evaluation
 
 ```bash
 python src/test.py \
@@ -136,7 +136,7 @@ Floating-point, library, hardware, and NMS differences can cause small
 variation. Do not overwrite the canonical row unless the checkpoint hash,
 dataset manifest, source commit, environment, and exact command are stored.
 
-## Round 2I+ evaluation
+## DARP-Net evaluation
 
 Place the verified file at `checkpoints/ia_dasr_round2i_plus_best.pt`, then run:
 

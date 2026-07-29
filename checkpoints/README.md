@@ -9,10 +9,10 @@ explicit release artifact.
 | File | Purpose | SHA-256 |
 |---|---|---|
 | `ia_dasr_stage1_best.pt` | initialization for the validated formal stage-2 continuation | not yet published in this release |
-| `ia_dasr_stage2_e10_best.pt` | formal single-model mainline | not yet published in this release |
-| `ia_dasr_round2i_plus_best.pt` | protocol-optimized inference checkpoint | `626D279F6C0D547F3559B3483009D9C34F860D1D9A1D970F9950F38BAC03B7C6` |
+| `ia_dasr_stage2_e10_best.pt` | DARP-Fusion predecessor (historical filename) | not yet published in this release |
+| `ia_dasr_round2i_plus_best.pt` | locked DARP-Net inference checkpoint (historical filename) | `626D279F6C0D547F3559B3483009D9C34F860D1D9A1D970F9950F38BAC03B7C6` |
 
-The archived Round 2I+ inference file is approximately 65.6 MB. Raw training
+The archived DARP-Net inference file is approximately 65.6 MB. Raw training
 checkpoints containing optimizer state are intentionally excluded.
 
 ## Verification
